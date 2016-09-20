@@ -6,8 +6,13 @@ import Html exposing (..)
 import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import String
 import Random exposing (generate, int)
+import Json.Decode as Json
+import Http
+import Task
+import String
+
+
 
 main : Program Never
 main =
@@ -27,6 +32,8 @@ type alias Model =
   , password : String
   , passwordCheck : String
   , diceFace : Int
+  , topic : String
+  , gifUrl : String
   }
 
 model : Model
@@ -37,6 +44,8 @@ model =
   , password = ""
   , passwordCheck = ""
   , diceFace = 1
+  , topic = "cats"
+  , gifUrl = ""
   }
 
 init : (Model, Cmd Msg)
@@ -55,6 +64,9 @@ type Msg
   | PasswordCheck String
   | Roll
   | NewFace Int
+  | MorePlease
+  | FetchSucceed String
+  | FetchFail Http.Error
 
 
 update: Msg -> Model -> (Model, Cmd Msg)
@@ -78,6 +90,25 @@ update msg model =
       (model, generate NewFace (int 1 6))
     NewFace newFace ->
       ({model | diceFace = newFace}, Cmd.none)
+    MorePlease ->
+      (model, getRandomGif model.topic)
+    FetchSucceed newUrl ->
+      ({model | gifUrl = newUrl }, Cmd.none)
+    FetchFail _ ->
+      (model, Cmd.none)
+
+getRandomGif : String -> Cmd Msg
+getRandomGif topic =
+  let
+    url =
+      "https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=" ++ topic
+  in
+    Task.perform FetchFail FetchSucceed (Http.get decodeGifUrl url)
+
+decodeGifUrl : Json.Decoder String
+decodeGifUrl =
+  Json.at ["data", "image_url"] Json.string
+
 
 -- SUBSCRIPTIONS
 
@@ -113,9 +144,14 @@ view model =
         ]
     , div [ box ++ column |> style ]
         [ div [ style heading ] [text "Dice roller"]
-        , div [ centerContent ++ [("width", "100%")] |> style ] 
+        , div [ centerContent ++ [("width", "100%")] |> style ]
             [ h1 [ item ++ dice |> style, onClick Roll ] [ model.diceFace |> toString |> text ]
             ]
+        ]
+    , div [ style box ]
+        [ div [ style heading ] [ text model.topic ]
+        , img [ src model.gifUrl ] []
+        , button [ onClick MorePlease ] [ text "Moar!!!" ]
         ]
     ]
 
