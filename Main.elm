@@ -15,7 +15,7 @@ import Json.Decode as Json
 import Http
 import Task
 import String
-
+import WebSocket
 
 main : Program Never
 main =
@@ -39,6 +39,8 @@ type alias Model =
   , gifUrl : String
   , isFetching : Bool
   , time : Time
+  , chatInput : String
+  , messages : List String
   }
 
 model : Model
@@ -53,6 +55,8 @@ model =
   , gifUrl = ""
   , isFetching = False
   , time = 0
+  , chatInput = ""
+  , messages = []
   }
 
 init : (Model, Cmd Msg)
@@ -75,6 +79,9 @@ type Msg
   | FetchSucceed String
   | FetchFail Http.Error
   | Tick Time
+  | ChatInput String
+  | Send
+  | NewMessage String
 
 
 update: Msg -> Model -> (Model, Cmd Msg)
@@ -106,6 +113,13 @@ update msg model =
       ({ model | isFetching = False }, Cmd.none)
     Tick newTime ->
       ({ model | time = newTime }, Cmd.none)
+    ChatInput input ->
+      ({ model | chatInput = input }, Cmd.none)
+    Send ->
+      (model, WebSocket.send "ws://echo.websocket.org" model.chatInput)
+    NewMessage message ->
+      ({ model | messages = (message :: model.messages)}, Cmd.none)
+
 
 getRandomGif : String -> Cmd Msg
 getRandomGif topic =
@@ -123,7 +137,10 @@ decodeGifUrl =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Time.every second Tick
+  Sub.batch
+    [ Time.every second Tick
+    , WebSocket.listen "ws://echo.websocket.org" NewMessage
+    ]
 
 -- VIEW
 
@@ -140,7 +157,7 @@ view model =
             ]
       ]
     , div [ box ++ column |> Html.Attributes.style ]
-        [ div [ Html.Attributes.style heading ] [Html.text "Inverted Html.text"]
+        [ div [ Html.Attributes.style heading ] [Html.text "Inverted text"]
         , input [ Html.Attributes.style item, placeholder "Input some Html.text", onInput Change ] []
         , div [] [ model.content |> String.reverse |> Html.text ]
         ]
@@ -163,9 +180,20 @@ view model =
         , button [ onClick MorePlease ] [ Html.text "Moar!!!" ]
         ]
     , div [ Html.Attributes.style box ]
-        [ clock model
+        [ div [ Html.Attributes.style heading ] [Html.text "Clock"]
+        , clock model
         ]
+    , div [ Html.Attributes.style box ]
+      [ div [ Html.Attributes.style heading ] [ Html.text "Chat" ]
+      , div [] (List.map viewMessage model.messages)
+      , input [ onInput ChatInput ] []
+      , button [ onClick Send ] [ Html.text "Send" ]
+      ]
     ]
+
+viewMessage : String -> Html msg
+viewMessage msg =
+  div [] [ Html.text msg ]
 
 viewValidation : Model -> Html Msg
 viewValidation model =
