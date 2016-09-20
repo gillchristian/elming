@@ -9087,6 +9087,23 @@ var _gillchristian$elming$Styles$container = _elm_lang$core$Native_List.fromArra
 		{ctor: '_Tuple2', _0: 'justify-content', _1: 'space-around'},
 		{ctor: '_Tuple2', _0: 'flex-wrap', _1: 'wrap'}
 	]);
+var _gillchristian$elming$Main$gifOrLoading = function (model) {
+	return model.isFetching ? A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html$text('Loading . . . ')
+			])) : A2(
+		_elm_lang$html$Html$img,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$src(model.gifUrl)
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[]));
+};
 var _gillchristian$elming$Main$viewValidation = function (model) {
 	var _p0 = (_elm_lang$core$String$isEmpty(model.password) || _elm_lang$core$String$isEmpty(model.passwordCheck)) ? {ctor: '_Tuple2', _0: '', _1: ''} : (_elm_lang$core$Native_Utils.eq(model.password, model.passwordCheck) ? {ctor: '_Tuple2', _0: 'green', _1: 'OK!!!'} : {ctor: '_Tuple2', _0: 'red', _1: 'Passwords do not match!!!'});
 	var color = _p0._0;
@@ -9114,11 +9131,11 @@ var _gillchristian$elming$Main$decodeGifUrl = A2(
 	_elm_lang$core$Native_List.fromArray(
 		['data', 'image_url']),
 	_elm_lang$core$Json_Decode$string);
-var _gillchristian$elming$Main$model = {content: '', counter: 0, name: '', password: '', passwordCheck: '', diceFace: 1, topic: 'cats', gifUrl: ''};
+var _gillchristian$elming$Main$model = {content: '', counter: 0, name: '', password: '', passwordCheck: '', diceFace: 1, topic: 'cats', gifUrl: '', isFetching: false};
 var _gillchristian$elming$Main$init = {ctor: '_Tuple2', _0: _gillchristian$elming$Main$model, _1: _elm_lang$core$Platform_Cmd$none};
-var _gillchristian$elming$Main$Model = F8(
-	function (a, b, c, d, e, f, g, h) {
-		return {content: a, counter: b, name: c, password: d, passwordCheck: e, diceFace: f, topic: g, gifUrl: h};
+var _gillchristian$elming$Main$Model = F9(
+	function (a, b, c, d, e, f, g, h, i) {
+		return {content: a, counter: b, name: c, password: d, passwordCheck: e, diceFace: f, topic: g, gifUrl: h, isFetching: i};
 	});
 var _gillchristian$elming$Main$FetchFail = function (a) {
 	return {ctor: 'FetchFail', _0: a};
@@ -9218,7 +9235,9 @@ var _gillchristian$elming$Main$update = F2(
 			case 'MorePlease':
 				return {
 					ctor: '_Tuple2',
-					_0: model,
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isFetching: true}),
 					_1: _gillchristian$elming$Main$getRandomGif(model.topic)
 				};
 			case 'FetchSucceed':
@@ -9226,11 +9245,17 @@ var _gillchristian$elming$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{gifUrl: _p1._0}),
+						{gifUrl: _p1._0, isFetching: false}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isFetching: false}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 var _gillchristian$elming$Main$Roll = {ctor: 'Roll'};
@@ -9498,14 +9523,7 @@ var _gillchristian$elming$Main$view = function (model) {
 							[
 								_elm_lang$html$Html$text(model.topic)
 							])),
-						A2(
-						_elm_lang$html$Html$img,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$src(model.gifUrl)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
+						_gillchristian$elming$Main$gifOrLoading(model),
 						A2(
 						_elm_lang$html$Html$button,
 						_elm_lang$core$Native_List.fromArray(

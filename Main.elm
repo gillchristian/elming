@@ -34,6 +34,7 @@ type alias Model =
   , diceFace : Int
   , topic : String
   , gifUrl : String
+  , isFetching : Bool
   }
 
 model : Model
@@ -46,6 +47,7 @@ model =
   , diceFace = 1
   , topic = "cats"
   , gifUrl = ""
+  , isFetching = False
   }
 
 init : (Model, Cmd Msg)
@@ -89,13 +91,13 @@ update msg model =
     Roll ->
       (model, generate NewFace (int 1 6))
     NewFace newFace ->
-      ({model | diceFace = newFace}, Cmd.none)
+      ({ model | diceFace = newFace }, Cmd.none)
     MorePlease ->
-      (model, getRandomGif model.topic)
+      ({ model | isFetching = True }, getRandomGif model.topic)
     FetchSucceed newUrl ->
-      ({model | gifUrl = newUrl }, Cmd.none)
+      ({ model | gifUrl = newUrl, isFetching = False }, Cmd.none)
     FetchFail _ ->
-      (model, Cmd.none)
+      ({ model | isFetching = False }, Cmd.none)
 
 getRandomGif : String -> Cmd Msg
 getRandomGif topic =
@@ -150,7 +152,7 @@ view model =
         ]
     , div [ style box ]
         [ div [ style heading ] [ text model.topic ]
-        , img [ src model.gifUrl ] []
+        , gifOrLoading model 
         , button [ onClick MorePlease ] [ text "Moar!!!" ]
         ]
     ]
@@ -167,3 +169,9 @@ viewValidation model =
         ("red", "Passwords do not match!!!")
   in
     div [ style [("color", color)] ] [ text message ]
+
+gifOrLoading : Model -> Html Msg
+gifOrLoading model =
+  if model.isFetching then
+    div [] [ text "Loading . . . " ]
+  else img [ src model.gifUrl ] []
