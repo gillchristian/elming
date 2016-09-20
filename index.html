@@ -7868,30 +7868,30 @@ var _elm_lang$html$Html_Events$Options = F2(
 	function (a, b) {
 		return {stopPropagation: a, preventDefault: b};
 	});
-var _user$project$Main$item = _elm_lang$core$Native_List.fromArray(
+var _gillchristian$elming$Styles$item = _elm_lang$core$Native_List.fromArray(
 	[
 		{ctor: '_Tuple2', _0: 'margin', _1: '3px'}
 	]);
-var _user$project$Main$box = _elm_lang$core$Native_List.fromArray(
+var _gillchristian$elming$Styles$box = _elm_lang$core$Native_List.fromArray(
 	[
 		{ctor: '_Tuple2', _0: 'border', _1: '1px solid black'},
 		{ctor: '_Tuple2', _0: 'border-radius', _1: '3px'},
 		{ctor: '_Tuple2', _0: 'margin', _1: '10px'},
 		{ctor: '_Tuple2', _0: 'padding', _1: '10px'}
 	]);
-var _user$project$Main$centerContent = _elm_lang$core$Native_List.fromArray(
+var _gillchristian$elming$Styles$centerContent = _elm_lang$core$Native_List.fromArray(
 	[
 		{ctor: '_Tuple2', _0: 'display', _1: 'flex'},
 		{ctor: '_Tuple2', _0: 'justify-content', _1: 'center'},
 		{ctor: '_Tuple2', _0: 'align-items', _1: 'center'}
 	]);
-var _user$project$Main$container = _elm_lang$core$Native_List.fromArray(
+var _gillchristian$elming$Styles$container = _elm_lang$core$Native_List.fromArray(
 	[
 		{ctor: '_Tuple2', _0: 'display', _1: 'flex'},
 		{ctor: '_Tuple2', _0: 'justify-content', _1: 'space-around'},
 		{ctor: '_Tuple2', _0: 'flex-wrap', _1: 'wrap'}
 	]);
-var _user$project$Main$viewValidation = function (model) {
+var _gillchristian$elming$Main$viewValidation = function (model) {
 	var _p0 = (_elm_lang$core$String$isEmpty(model.password) || _elm_lang$core$String$isEmpty(model.passwordCheck)) ? {ctor: '_Tuple2', _0: '', _1: ''} : (_elm_lang$core$Native_Utils.eq(model.password, model.passwordCheck) ? {ctor: '_Tuple2', _0: 'green', _1: 'OK!!!'} : {ctor: '_Tuple2', _0: 'red', _1: 'Passwords do not match!!!'});
 	var color = _p0._0;
 	var message = _p0._1;
@@ -7910,7 +7910,7 @@ var _user$project$Main$viewValidation = function (model) {
 				_elm_lang$html$Html$text(message)
 			]));
 };
-var _user$project$Main$update = F2(
+var _gillchristian$elming$Main$update = F2(
 	function (msg, model) {
 		var _p1 = msg;
 		switch (_p1.ctor) {
@@ -7944,32 +7944,32 @@ var _user$project$Main$update = F2(
 					{passwordCheck: _p1._0});
 		}
 	});
-var _user$project$Main$model = {content: '', counter: 0, name: '', password: '', passwordCheck: ''};
-var _user$project$Main$Model = F5(
+var _gillchristian$elming$Main$model = {content: '', counter: 0, name: '', password: '', passwordCheck: ''};
+var _gillchristian$elming$Main$Model = F5(
 	function (a, b, c, d, e) {
 		return {content: a, counter: b, name: c, password: d, passwordCheck: e};
 	});
-var _user$project$Main$PasswordCheck = function (a) {
+var _gillchristian$elming$Main$PasswordCheck = function (a) {
 	return {ctor: 'PasswordCheck', _0: a};
 };
-var _user$project$Main$Password = function (a) {
+var _gillchristian$elming$Main$Password = function (a) {
 	return {ctor: 'Password', _0: a};
 };
-var _user$project$Main$Name = function (a) {
+var _gillchristian$elming$Main$Name = function (a) {
 	return {ctor: 'Name', _0: a};
 };
-var _user$project$Main$Change = function (a) {
+var _gillchristian$elming$Main$Change = function (a) {
 	return {ctor: 'Change', _0: a};
 };
-var _user$project$Main$Reset = {ctor: 'Reset'};
-var _user$project$Main$Decrement = {ctor: 'Decrement'};
-var _user$project$Main$Increment = {ctor: 'Increment'};
-var _user$project$Main$view = function (model) {
+var _gillchristian$elming$Main$Reset = {ctor: 'Reset'};
+var _gillchristian$elming$Main$Decrement = {ctor: 'Decrement'};
+var _gillchristian$elming$Main$Increment = {ctor: 'Increment'};
+var _gillchristian$elming$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html_Attributes$style(_user$project$Main$container)
+				_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$container)
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
@@ -7978,7 +7978,7 @@ var _user$project$Main$view = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						_elm_lang$html$Html_Attributes$style(
-						A2(_elm_lang$core$Basics_ops['++'], _user$project$Main$box, _user$project$Main$container))
+						A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$container))
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
@@ -7986,8 +7986,8 @@ var _user$project$Main$view = function (model) {
 						_elm_lang$html$Html$button,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Events$onClick(_user$project$Main$Decrement),
-								_elm_lang$html$Html_Attributes$style(_user$project$Main$item)
+								_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Main$Decrement),
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -7997,7 +7997,7 @@ var _user$project$Main$view = function (model) {
 						_elm_lang$html$Html$div,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Attributes$style(_user$project$Main$item)
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -8008,8 +8008,8 @@ var _user$project$Main$view = function (model) {
 						_elm_lang$html$Html$button,
 						_elm_lang$core$Native_List.fromArray(
 							[
-								_elm_lang$html$Html_Events$onClick(_user$project$Main$Increment),
-								_elm_lang$html$Html_Attributes$style(_user$project$Main$item)
+								_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Main$Increment),
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -8026,7 +8026,7 @@ var _user$project$Main$view = function (model) {
 										[
 											{ctor: '_Tuple2', _0: 'width', _1: '100%'}
 										]),
-									_user$project$Main$centerContent))
+									_gillchristian$elming$Styles$centerContent))
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -8034,12 +8034,12 @@ var _user$project$Main$view = function (model) {
 								_elm_lang$html$Html$button,
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_elm_lang$html$Html_Events$onClick(_user$project$Main$Reset),
-										_elm_lang$html$Html_Attributes$style(_user$project$Main$item)
+										_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Main$Reset),
+										_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
 									]),
 								_elm_lang$core$Native_List.fromArray(
 									[
-										_elm_lang$html$Html$text('Reset')
+										_elm_lang$html$Html$text('Restart')
 									]))
 							]))
 					])),
@@ -8047,7 +8047,7 @@ var _user$project$Main$view = function (model) {
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$style(_user$project$Main$box)
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
@@ -8056,7 +8056,7 @@ var _user$project$Main$view = function (model) {
 						_elm_lang$core$Native_List.fromArray(
 							[
 								_elm_lang$html$Html_Attributes$placeholder('Input some text'),
-								_elm_lang$html$Html_Events$onInput(_user$project$Main$Change)
+								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$Change)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[])),
@@ -8074,7 +8074,7 @@ var _user$project$Main$view = function (model) {
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$style(_user$project$Main$box)
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
@@ -8084,7 +8084,7 @@ var _user$project$Main$view = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$type$('text'),
 								_elm_lang$html$Html_Attributes$placeholder('Name'),
-								_elm_lang$html$Html_Events$onInput(_user$project$Main$Name)
+								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$Name)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[])),
@@ -8094,7 +8094,7 @@ var _user$project$Main$view = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$type$('password'),
 								_elm_lang$html$Html_Attributes$placeholder('Password'),
-								_elm_lang$html$Html_Events$onInput(_user$project$Main$Password)
+								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$Password)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[])),
@@ -8104,21 +8104,21 @@ var _user$project$Main$view = function (model) {
 							[
 								_elm_lang$html$Html_Attributes$type$('password'),
 								_elm_lang$html$Html_Attributes$placeholder('Re-enter Password'),
-								_elm_lang$html$Html_Events$onInput(_user$project$Main$PasswordCheck)
+								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$PasswordCheck)
 							]),
 						_elm_lang$core$Native_List.fromArray(
 							[])),
-						_user$project$Main$viewValidation(model)
+						_gillchristian$elming$Main$viewValidation(model)
 					]))
 			]));
 };
-var _user$project$Main$main = {
+var _gillchristian$elming$Main$main = {
 	main: _elm_lang$html$Html_App$beginnerProgram(
-		{model: _user$project$Main$model, view: _user$project$Main$view, update: _user$project$Main$update})
+		{model: _gillchristian$elming$Main$model, view: _gillchristian$elming$Main$view, update: _gillchristian$elming$Main$update})
 };
 var Elm = {};
 Elm['Main'] = Elm['Main'] || {};
-_elm_lang$core$Native_Platform.addPublicModule(Elm['Main'], 'Main', typeof _user$project$Main$main === 'undefined' ? null : _user$project$Main$main);
+_elm_lang$core$Native_Platform.addPublicModule(Elm['Main'], 'Main', typeof _gillchristian$elming$Main$main === 'undefined' ? null : _gillchristian$elming$Main$main);
 
 if (typeof define === "function" && define['amd'])
 {

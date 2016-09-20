@@ -1,10 +1,14 @@
+module Main exposing (..)
+
+import Styles exposing (..)
+
 import Html exposing (..)
 import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import String
 
-
+main : Program Never
 main =
   App.beginnerProgram { model = model, view = view, update = update }
 
@@ -61,17 +65,17 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div [ style container ]
-    [ div [ box ++ container |> style ]
-        [ button [ onClick Decrement, style item ] [ text "-" ]
-        , div [ style item ] [ model.counter |> toString |> text ]
-        , button [ onClick Increment, style item ] [ text "+" ]
-        , div [ [("width", "100%")] ++ centerContent |> style ]
+  div [ style  container ]
+    [ div [  box ++  container |> style ]
+        [ button [ onClick Decrement, style  item ] [ text "-" ]
+        , div [ style  item ] [ model.counter |> toString |> text ]
+        , button [ onClick Increment, style  item ] [ text "+" ]
+        , div [ [("width", "100%")] ++  centerContent |> style ]
             [
-              button [ onClick Reset, style item ] [ text "Reset" ]
+              button [ onClick Reset, style  item ] [ text "Restart" ]
             ]
       ]
-    , div [style box]
+    , div [style  box]
         [ input [ placeholder "Input some text", onInput Change ] []
         , div [] [ model.content |> String.reverse |> text ]
         ]
@@ -95,27 +99,3 @@ viewValidation model =
         ("red", "Passwords do not match!!!")
   in
     div [ style [("color", color)] ] [ text message ]
-
-  -- STYLES
-container =
-  [ ("display", "flex")
-  , ("justify-content", "space-around")
-  , ("flex-wrap", "wrap")
-  ]
-
-centerContent =
-  [ ("display", "flex")
-  , ("justify-content", "center")
-  , ("align-items", "center")
-  ]
-
-box =
-  [ ("border", "1px solid black")
-  , ("border-radius", "3px")
-  , ("margin", "10px")
-  , ("padding", "10px")
-  ]
-
-item =
-  [ ("margin", "3px")
-  ]
