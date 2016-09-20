@@ -7868,16 +7868,26 @@ var _elm_lang$html$Html_Events$Options = F2(
 	function (a, b) {
 		return {stopPropagation: a, preventDefault: b};
 	});
+var _gillchristian$elming$Styles$heading = _elm_lang$core$Native_List.fromArray(
+	[
+		{ctor: '_Tuple2', _0: 'width', _1: '100%'},
+		{ctor: '_Tuple2', _0: 'padding', _1: '10px'},
+		{ctor: '_Tuple2', _0: 'border-bottom', _1: '1px solid black'}
+	]);
 var _gillchristian$elming$Styles$item = _elm_lang$core$Native_List.fromArray(
 	[
 		{ctor: '_Tuple2', _0: 'margin', _1: '3px'}
+	]);
+var _gillchristian$elming$Styles$column = _elm_lang$core$Native_List.fromArray(
+	[
+		{ctor: '_Tuple2', _0: 'display', _1: 'flex'},
+		{ctor: '_Tuple2', _0: 'flex-direction', _1: 'column'}
 	]);
 var _gillchristian$elming$Styles$box = _elm_lang$core$Native_List.fromArray(
 	[
 		{ctor: '_Tuple2', _0: 'border', _1: '1px solid black'},
 		{ctor: '_Tuple2', _0: 'border-radius', _1: '3px'},
-		{ctor: '_Tuple2', _0: 'margin', _1: '10px'},
-		{ctor: '_Tuple2', _0: 'padding', _1: '10px'}
+		{ctor: '_Tuple2', _0: 'margin', _1: '10px'}
 	]);
 var _gillchristian$elming$Styles$centerContent = _elm_lang$core$Native_List.fromArray(
 	[
@@ -7983,6 +7993,16 @@ var _gillchristian$elming$Main$view = function (model) {
 				_elm_lang$core$Native_List.fromArray(
 					[
 						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Counter')
+							])),
+						A2(
 						_elm_lang$html$Html$button,
 						_elm_lang$core$Native_List.fromArray(
 							[
@@ -8047,14 +8067,26 @@ var _gillchristian$elming$Main$view = function (model) {
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
+						_elm_lang$html$Html_Attributes$style(
+						A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$column))
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
 						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Inverted text')
+							])),
+						A2(
 						_elm_lang$html$Html$input,
 						_elm_lang$core$Native_List.fromArray(
 							[
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
 								_elm_lang$html$Html_Attributes$placeholder('Input some text'),
 								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$Change)
 							]),
@@ -8074,14 +8106,26 @@ var _gillchristian$elming$Main$view = function (model) {
 				_elm_lang$html$Html$div,
 				_elm_lang$core$Native_List.fromArray(
 					[
-						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
+						_elm_lang$html$Html_Attributes$style(
+						A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$container))
 					]),
 				_elm_lang$core$Native_List.fromArray(
 					[
 						A2(
+						_elm_lang$html$Html$div,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Login')
+							])),
+						A2(
 						_elm_lang$html$Html$input,
 						_elm_lang$core$Native_List.fromArray(
 							[
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
 								_elm_lang$html$Html_Attributes$type$('text'),
 								_elm_lang$html$Html_Attributes$placeholder('Name'),
 								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$Name)
@@ -8092,6 +8136,7 @@ var _gillchristian$elming$Main$view = function (model) {
 						_elm_lang$html$Html$input,
 						_elm_lang$core$Native_List.fromArray(
 							[
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
 								_elm_lang$html$Html_Attributes$type$('password'),
 								_elm_lang$html$Html_Attributes$placeholder('Password'),
 								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$Password)
@@ -8102,6 +8147,7 @@ var _gillchristian$elming$Main$view = function (model) {
 						_elm_lang$html$Html$input,
 						_elm_lang$core$Native_List.fromArray(
 							[
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
 								_elm_lang$html$Html_Attributes$type$('password'),
 								_elm_lang$html$Html_Attributes$placeholder('Re-enter Password'),
 								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$PasswordCheck)
