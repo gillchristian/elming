@@ -3,15 +3,18 @@ module Main exposing (..)
 import Styles exposing (..)
 
 import Html exposing (..)
+import Svg exposing (..)
 import Html.App as App
 import Html.Attributes exposing (..)
+import Svg.Attributes exposing (..)
 import Html.Events exposing (..)
+
 import Random exposing (generate, int)
+import Time exposing (Time, second)
 import Json.Decode as Json
 import Http
 import Task
 import String
-
 
 
 main : Program Never
@@ -35,6 +38,7 @@ type alias Model =
   , topic : String
   , gifUrl : String
   , isFetching : Bool
+  , time : Time
   }
 
 model : Model
@@ -48,6 +52,7 @@ model =
   , topic = "cats"
   , gifUrl = ""
   , isFetching = False
+  , time = 0
   }
 
 init : (Model, Cmd Msg)
@@ -69,6 +74,7 @@ type Msg
   | MorePlease
   | FetchSucceed String
   | FetchFail Http.Error
+  | Tick Time
 
 
 update: Msg -> Model -> (Model, Cmd Msg)
@@ -98,6 +104,8 @@ update msg model =
       ({ model | gifUrl = newUrl, isFetching = False }, Cmd.none)
     FetchFail _ ->
       ({ model | isFetching = False }, Cmd.none)
+    Tick newTime ->
+      ({ model | time = newTime }, Cmd.none)
 
 getRandomGif : String -> Cmd Msg
 getRandomGif topic =
@@ -111,49 +119,51 @@ decodeGifUrl : Json.Decoder String
 decodeGifUrl =
   Json.at ["data", "image_url"] Json.string
 
-
 -- SUBSCRIPTIONS
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  Sub.none
+  Time.every second Tick
 
 -- VIEW
 
 view : Model -> Html Msg
 view model =
-  div [ style  container ]
-    [ div [ box ++ container |> style ]
-    [ div [ style heading ] [text "Counter"]
-        , button [ onClick Decrement, style item ] [ text "-" ]
-        , div [ style item ] [ model.counter |> toString |> text ]
-        , button [ onClick Increment, style item ] [ text "+" ]
-        , div [ [("width", "100%")] ++ centerContent |> style ]
-            [ button [ onClick Reset, style item ] [ text "Restart" ]
+  div [ Html.Attributes.style  container ]
+    [ div [ box ++ container |> Html.Attributes.style ]
+    [ div [ Html.Attributes.style heading ] [Html.text "Counter"]
+        , button [ onClick Decrement, Html.Attributes.style item ] [ Html.text "-" ]
+        , div [ Html.Attributes.style item ] [ model.counter |> toString |> Html.text ]
+        , button [ onClick Increment, Html.Attributes.style item ] [ Html.text "+" ]
+        , div [ [("width", "100%")] ++ centerContent |> Html.Attributes.style ]
+            [ button [ onClick Reset, Html.Attributes.style item ] [ Html.text "Restart" ]
             ]
       ]
-    , div [ box ++ column |> style ]
-        [ div [ style heading ] [text "Inverted text"]
-        , input [ style item, placeholder "Input some text", onInput Change ] []
-        , div [] [ model.content |> String.reverse |> text ]
+    , div [ box ++ column |> Html.Attributes.style ]
+        [ div [ Html.Attributes.style heading ] [Html.text "Inverted Html.text"]
+        , input [ Html.Attributes.style item, placeholder "Input some Html.text", onInput Change ] []
+        , div [] [ model.content |> String.reverse |> Html.text ]
         ]
-    , div [ box ++ container |> style ]
-        [ div [ style heading ] [text "Login"]
-        , input [ style item, type' "text", placeholder "Name", onInput Name ] []
-        , input [ style item, type' "password", placeholder "Password", onInput Password ] []
-        , input [ style item, type' "password", placeholder "Re-enter Password", onInput PasswordCheck ] []
+    , div [ box ++ container |> Html.Attributes.style ]
+        [ div [ Html.Attributes.style heading ] [Html.text "Login"]
+        , input [ Html.Attributes.style item, Html.Attributes.type' "text", placeholder "Name", onInput Name ] []
+        , input [ Html.Attributes.style item, Html.Attributes.type' "password", placeholder "Password", onInput Password ] []
+        , input [ Html.Attributes.style item, Html.Attributes.type' "password", placeholder "Re-enter Password", onInput PasswordCheck ] []
         , viewValidation model
         ]
-    , div [ box ++ column |> style ]
-        [ div [ style heading ] [text "Dice roller"]
-        , div [ centerContent ++ [("width", "100%")] |> style ]
-            [ h1 [ item ++ dice |> style, onClick Roll ] [ model.diceFace |> toString |> text ]
+    , div [ box ++ column |> Html.Attributes.style ]
+        [ div [ Html.Attributes.style heading ] [Html.text "Dice roller"]
+        , div [ centerContent ++ [("width", "100%")] |> Html.Attributes.style ]
+            [ h1 [ item ++ dice |> Html.Attributes.style, onClick Roll ] [ model.diceFace |> toString |> Html.text ]
             ]
         ]
-    , div [ style box ]
-        [ div [ style heading ] [ text model.topic ]
-        , gifOrLoading model 
-        , button [ onClick MorePlease ] [ text "Moar!!!" ]
+    , div [ Html.Attributes.style box ]
+        [ div [ Html.Attributes.style heading ] [ Html.text model.topic ]
+        , gifOrLoading model
+        , button [ onClick MorePlease ] [ Html.text "Moar!!!" ]
+        ]
+    , div [ Html.Attributes.style box ]
+        [ clock model
         ]
     ]
 
@@ -168,10 +178,27 @@ viewValidation model =
       else
         ("red", "Passwords do not match!!!")
   in
-    div [ style [("color", color)] ] [ text message ]
+    div [ Html.Attributes.style [("color", color)] ] [ Html.text message ]
 
 gifOrLoading : Model -> Html Msg
 gifOrLoading model =
   if model.isFetching then
-    div [] [ text "Loading . . . " ]
+    div [] [ Html.text "Loading . . . " ]
   else img [ src model.gifUrl ] []
+
+clock : Model -> Html Msg
+clock model =
+  let
+    angle =
+      turns (Time.inMinutes model.time)
+
+    handX =
+      toString (50 + 40 * cos angle)
+
+    handY =
+      toString (50 + 40 * sin angle)
+  in
+    Svg.svg [ viewBox "0 0 100 100", Svg.Attributes.width "300px" ]
+      [ circle [ cx "50", cy "50", r "45", fill "#0B79CE" ] []
+      , line [ x1 "50", y1 "50", x2 handX, y2 handY, stroke "#023963" ] []
+      ]
