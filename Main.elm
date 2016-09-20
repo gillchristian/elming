@@ -7,10 +7,16 @@ import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import String
+import Random exposing (generate, int)
 
 main : Program Never
 main =
-  App.beginnerProgram { model = model, view = view, update = update }
+  App.program
+    { init = init
+    , view = view
+    , update = update
+    , subscriptions = subscriptions
+    }
 
 -- MODEL
 
@@ -20,16 +26,22 @@ type alias Model =
   , name : String
   , password : String
   , passwordCheck : String
+  , diceFace : Int
   }
 
-model :Model
+model : Model
 model =
   { content = ""
   , counter = 0
   , name = ""
   , password = ""
   , passwordCheck = ""
+  , diceFace = 1
   }
+
+init : (Model, Cmd Msg)
+init =
+  (model, Cmd.none)
 
 -- UPDATE
 
@@ -41,52 +53,69 @@ type Msg
   | Name String
   | Password String
   | PasswordCheck String
+  | Roll
+  | NewFace Int
 
 
-update: Msg -> Model -> Model
+update: Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
     Increment ->
-      { model | counter = model.counter + 1 }
+      ({ model | counter = model.counter + 1 }, Cmd.none)
     Decrement ->
-      { model | counter = model.counter - 1 }
+      ({ model | counter = model.counter - 1 }, Cmd.none)
     Reset ->
-      { model | counter = 0 }
+      ({ model | counter = 0 }, Cmd.none)
     Change newContent ->
-      { model | content = newContent }
+      ({ model | content = newContent }, Cmd.none)
     Name name ->
-      { model | name = name }
+      ({ model | name = name }, Cmd.none)
     Password password ->
-      { model | password = password }
+      ({ model | password = password }, Cmd.none)
     PasswordCheck password ->
-      { model | passwordCheck = password }
+      ({ model | passwordCheck = password }, Cmd.none)
+    Roll ->
+      (model, generate NewFace (int 1 6))
+    NewFace newFace ->
+      ({model | diceFace = newFace}, Cmd.none)
+
+-- SUBSCRIPTIONS
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+  Sub.none
 
 -- VIEW
 
 view : Model -> Html Msg
 view model =
   div [ style  container ]
-    [ div [ box ++  container |> style ]
-        [ div [ style heading ] [text "Counter"]
-        , button [ onClick Decrement, style  item ] [ text "-" ]
-        , div [ style  item ] [ model.counter |> toString |> text ]
-        , button [ onClick Increment, style  item ] [ text "+" ]
-        , div [ [("width", "100%")] ++  centerContent |> style ]
-            [
-              button [ onClick Reset, style  item ] [ text "Restart" ]
+    [ div [ box ++ container |> style ]
+    [ div [ style heading ] [text "Counter"]
+        , button [ onClick Decrement, style item ] [ text "-" ]
+        , div [ style item ] [ model.counter |> toString |> text ]
+        , button [ onClick Increment, style item ] [ text "+" ]
+        , div [ [("width", "100%")] ++ centerContent |> style ]
+            [ button [ onClick Reset, style item ] [ text "Restart" ]
             ]
       ]
-    , div [ box ++  column |> style ]
+    , div [ box ++ column |> style ]
         [ div [ style heading ] [text "Inverted text"]
-        , input [ style  item, placeholder "Input some text", onInput Change ] []
+        , input [ style item, placeholder "Input some text", onInput Change ] []
         , div [] [ model.content |> String.reverse |> text ]
         ]
-    , div [ box ++  container |> style ]
+    , div [ box ++ container |> style ]
         [ div [ style heading ] [text "Login"]
-        , input [ style  item, type' "text", placeholder "Name", onInput Name ] []
-        , input [ style  item, type' "password", placeholder "Password", onInput Password ] []
-        , input [ style  item, type' "password", placeholder "Re-enter Password", onInput PasswordCheck ] []
+        , input [ style item, type' "text", placeholder "Name", onInput Name ] []
+        , input [ style item, type' "password", placeholder "Password", onInput Password ] []
+        , input [ style item, type' "password", placeholder "Re-enter Password", onInput PasswordCheck ] []
         , viewValidation model
+        ]
+    , div [ box ++ column |> style ]
+        [ div [ style heading ] [text "Dice roller"]
+        , div [ centerContent ++ [("width", "100%")] |> style ] 
+            [ h1 [ item ++ dice |> style, onClick Roll ] [ model.diceFace |> toString |> text ]
+            ]
         ]
     ]
 

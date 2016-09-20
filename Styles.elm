@@ -40,3 +40,9 @@ heading =
   , ("padding", "10px")
   , ("border-bottom", "1px solid black")
   ]
+
+dice : List (String, String)
+dice =
+  [ ("cursor", "pointer")
+  , ("font-family", "Helvetica")
+  ]
