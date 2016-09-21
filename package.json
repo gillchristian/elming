@@ -1,0 +1,29 @@
+{
+  "name": "elming",
+  "version": "0.1.0",
+  "description": "trying out elm lang, doing some silly stuff with it!",
+  "main": "bundle.js",
+  "scripts": {
+    "build": "elm-make Main.elm --output=bundle.js",
+    "start": "elm-reactor"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gillchristian/elming.git"
+  },
+  "keywords": [
+    "elm",
+    "experiments",
+    "poc",
+    "elm-lang"
+  ],
+  "author": "gillchristian",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gillchristian/elming/issues"
+  },
+  "homepage": "https://github.com/gillchristian/elming#readme",
+  "devDependencies": {
+    "elm": "^0.17.1"
+  }
+}
