@@ -9969,6 +9969,232 @@ var _evancz$elm_http$Http$post = F3(
 			A2(_evancz$elm_http$Http$send, _evancz$elm_http$Http$defaultSettings, request));
 	});
 
+var _gillchristian$elming$Model$model = {
+	content: '',
+	counter: 0,
+	name: '',
+	password: '',
+	passwordCheck: '',
+	diceFace: 1,
+	topic: 'cats',
+	gifUrl: '',
+	isFetching: false,
+	time: 0,
+	chatInput: '',
+	messages: _elm_lang$core$Native_List.fromArray(
+		[])
+};
+var _gillchristian$elming$Model$Model = function (a) {
+	return function (b) {
+		return function (c) {
+			return function (d) {
+				return function (e) {
+					return function (f) {
+						return function (g) {
+							return function (h) {
+								return function (i) {
+									return function (j) {
+										return function (k) {
+											return function (l) {
+												return {content: a, counter: b, name: c, password: d, passwordCheck: e, diceFace: f, topic: g, gifUrl: h, isFetching: i, time: j, chatInput: k, messages: l};
+											};
+										};
+									};
+								};
+							};
+						};
+					};
+				};
+			};
+		};
+	};
+};
+
+var _gillchristian$elming$Update$decodeGifUrl = A2(
+	_elm_lang$core$Json_Decode$at,
+	_elm_lang$core$Native_List.fromArray(
+		['data', 'image_url']),
+	_elm_lang$core$Json_Decode$string);
+var _gillchristian$elming$Update$NewMessage = function (a) {
+	return {ctor: 'NewMessage', _0: a};
+};
+var _gillchristian$elming$Update$Send = {ctor: 'Send'};
+var _gillchristian$elming$Update$ChatInput = function (a) {
+	return {ctor: 'ChatInput', _0: a};
+};
+var _gillchristian$elming$Update$Tick = function (a) {
+	return {ctor: 'Tick', _0: a};
+};
+var _gillchristian$elming$Update$FetchFail = function (a) {
+	return {ctor: 'FetchFail', _0: a};
+};
+var _gillchristian$elming$Update$FetchSucceed = function (a) {
+	return {ctor: 'FetchSucceed', _0: a};
+};
+var _gillchristian$elming$Update$getRandomGif = function (topic) {
+	var url = A2(_elm_lang$core$Basics_ops['++'], 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=', topic);
+	return A3(
+		_elm_lang$core$Task$perform,
+		_gillchristian$elming$Update$FetchFail,
+		_gillchristian$elming$Update$FetchSucceed,
+		A2(_evancz$elm_http$Http$get, _gillchristian$elming$Update$decodeGifUrl, url));
+};
+var _gillchristian$elming$Update$MorePlease = {ctor: 'MorePlease'};
+var _gillchristian$elming$Update$NewFace = function (a) {
+	return {ctor: 'NewFace', _0: a};
+};
+var _gillchristian$elming$Update$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'Increment':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{counter: model.counter + 1}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Decrement':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{counter: model.counter - 1}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Reset':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{counter: 0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Change':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{content: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Name':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{name: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Password':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{password: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'PasswordCheck':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{passwordCheck: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Roll':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(
+						_elm_lang$core$Random$generate,
+						_gillchristian$elming$Update$NewFace,
+						A2(_elm_lang$core$Random$int, 1, 6))
+				};
+			case 'NewFace':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{diceFace: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'MorePlease':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isFetching: true}),
+					_1: _gillchristian$elming$Update$getRandomGif(model.topic)
+				};
+			case 'FetchSucceed':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{gifUrl: _p0._0, isFetching: false}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'FetchFail':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{isFetching: false}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Tick':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{time: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ChatInput':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{chatInput: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'Send':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: A2(_elm_lang$websocket$WebSocket$send, 'ws://echo.websocket.org', model.chatInput)
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							messages: A2(_elm_lang$core$List_ops['::'], _p0._0, model.messages)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+var _gillchristian$elming$Update$Roll = {ctor: 'Roll'};
+var _gillchristian$elming$Update$PasswordCheck = function (a) {
+	return {ctor: 'PasswordCheck', _0: a};
+};
+var _gillchristian$elming$Update$Password = function (a) {
+	return {ctor: 'Password', _0: a};
+};
+var _gillchristian$elming$Update$Name = function (a) {
+	return {ctor: 'Name', _0: a};
+};
+var _gillchristian$elming$Update$Change = function (a) {
+	return {ctor: 'Change', _0: a};
+};
+var _gillchristian$elming$Update$Reset = {ctor: 'Reset'};
+var _gillchristian$elming$Update$Decrement = {ctor: 'Decrement'};
+var _gillchristian$elming$Update$Increment = {ctor: 'Increment'};
+
 var _gillchristian$elming$Styles$dice = _elm_lang$core$Native_List.fromArray(
 	[
 		{ctor: '_Tuple2', _0: 'cursor', _1: 'pointer'},
@@ -10008,9 +10234,63 @@ var _gillchristian$elming$Styles$container = _elm_lang$core$Native_List.fromArra
 		{ctor: '_Tuple2', _0: 'flex-wrap', _1: 'wrap'}
 	]);
 
-var _gillchristian$elming$Main$clock = function (model) {
+var _gillchristian$elming$View$viewMessage = function (msg) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html$text(msg)
+			]));
+};
+var _gillchristian$elming$View$chatBox = function (messages) {
+	return A2(
+		_elm_lang$html$Html$div,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Chat')
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				A2(_elm_lang$core$List$map, _gillchristian$elming$View$viewMessage, messages)),
+				A2(
+				_elm_lang$html$Html$input,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Update$ChatInput)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[])),
+				A2(
+				_elm_lang$html$Html$button,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Update$Send)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Send')
+					]))
+			]));
+};
+var _gillchristian$elming$View$clock = function (time) {
 	var angle = _elm_lang$core$Basics$turns(
-		_elm_lang$core$Time$inMinutes(model.time));
+		_elm_lang$core$Time$inMinutes(time));
 	var handX = _elm_lang$core$Basics$toString(
 		50 + (40 * _elm_lang$core$Basics$cos(angle)));
 	var handY = _elm_lang$core$Basics$toString(
@@ -10049,286 +10329,331 @@ var _gillchristian$elming$Main$clock = function (model) {
 					[]))
 			]));
 };
-var _gillchristian$elming$Main$gifOrLoading = function (model) {
-	return model.isFetching ? A2(
+var _gillchristian$elming$View$clockBox = function (time) {
+	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
-		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html$text('Loading . . . ')
-			])) : A2(
-		_elm_lang$html$Html$img,
-		_elm_lang$core$Native_List.fromArray(
-			[
-				_elm_lang$html$Html_Attributes$src(model.gifUrl)
+				_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
 			]),
 		_elm_lang$core$Native_List.fromArray(
-			[]));
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Clock')
+					])),
+				_gillchristian$elming$View$clock(time)
+			]));
 };
-var _gillchristian$elming$Main$viewValidation = function (model) {
-	var _p0 = (_elm_lang$core$String$isEmpty(model.password) || _elm_lang$core$String$isEmpty(model.passwordCheck)) ? {ctor: '_Tuple2', _0: '', _1: ''} : (_elm_lang$core$Native_Utils.eq(model.password, model.passwordCheck) ? {ctor: '_Tuple2', _0: 'green', _1: 'OK!!!'} : {ctor: '_Tuple2', _0: 'red', _1: 'Passwords do not match!!!'});
-	var color = _p0._0;
-	var message = _p0._1;
+var _gillchristian$elming$View$gifOrLoading = F2(
+	function (isFetching, gifUrl) {
+		return isFetching ? A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html$text('Loading . . . ')
+				])) : A2(
+			_elm_lang$html$Html$img,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$src(gifUrl)
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[]));
+	});
+var _gillchristian$elming$View$gifBox = F3(
+	function (isFetching, topic, gifUrl) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$div,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text(topic)
+						])),
+					A2(_gillchristian$elming$View$gifOrLoading, isFetching, gifUrl),
+					A2(
+					_elm_lang$html$Html$button,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Update$MorePlease)
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text('Moar!!!')
+						]))
+				]));
+	});
+var _gillchristian$elming$View$diceBox = function (diceFace) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
 				_elm_lang$html$Html_Attributes$style(
-				_elm_lang$core$Native_List.fromArray(
-					[
-						{ctor: '_Tuple2', _0: 'color', _1: color}
-					]))
+				A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$column))
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html$text(message)
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Dice roller')
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$style(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_gillchristian$elming$Styles$centerContent,
+							_elm_lang$core$Native_List.fromArray(
+								[
+									{ctor: '_Tuple2', _0: 'width', _1: '100%'}
+								])))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$h1,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Attributes$style(
+								A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$item, _gillchristian$elming$Styles$dice)),
+								_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Update$Roll)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text(
+								_elm_lang$core$Basics$toString(diceFace))
+							]))
+					]))
 			]));
 };
-var _gillchristian$elming$Main$viewMessage = function (msg) {
+var _gillchristian$elming$View$viewValidation = F2(
+	function (password, passwordCheck) {
+		var _p0 = (_elm_lang$core$String$isEmpty(password) || _elm_lang$core$String$isEmpty(passwordCheck)) ? {ctor: '_Tuple2', _0: '', _1: ''} : (_elm_lang$core$Native_Utils.eq(password, passwordCheck) ? {ctor: '_Tuple2', _0: 'green', _1: 'OK!!!'} : {ctor: '_Tuple2', _0: 'red', _1: 'Passwords do not match!!!'});
+		var color = _p0._0;
+		var message = _p0._1;
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$style(
+					_elm_lang$core$Native_List.fromArray(
+						[
+							{ctor: '_Tuple2', _0: 'color', _1: color}
+						]))
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html$text(message)
+				]));
+	});
+var _gillchristian$elming$View$login = F2(
+	function (password, passwordCheck) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$style(
+					A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$container))
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$html$Html$div,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html$text('Login')
+						])),
+					A2(
+					_elm_lang$html$Html$input,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
+							_elm_lang$html$Html_Attributes$type$('text'),
+							_elm_lang$html$Html_Attributes$placeholder('Name'),
+							_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Update$Name)
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[])),
+					A2(
+					_elm_lang$html$Html$input,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
+							_elm_lang$html$Html_Attributes$type$('password'),
+							_elm_lang$html$Html_Attributes$placeholder('Password'),
+							_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Update$Password)
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[])),
+					A2(
+					_elm_lang$html$Html$input,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
+							_elm_lang$html$Html_Attributes$type$('password'),
+							_elm_lang$html$Html_Attributes$placeholder('Re-enter Password'),
+							_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Update$PasswordCheck)
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[])),
+					A2(_gillchristian$elming$View$viewValidation, password, passwordCheck)
+				]));
+	});
+var _gillchristian$elming$View$invertedTextBox = function (content) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
-			[]),
+			[
+				_elm_lang$html$Html_Attributes$style(
+				A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$column))
+			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				_elm_lang$html$Html$text(msg)
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Inverted text')
+					])),
+				A2(
+				_elm_lang$html$Html$input,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
+						_elm_lang$html$Html_Attributes$placeholder('Input some text'),
+						_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Update$Change)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						_elm_lang$core$String$reverse(content))
+					]))
 			]));
 };
-var _gillchristian$elming$Main$decodeGifUrl = A2(
-	_elm_lang$core$Json_Decode$at,
-	_elm_lang$core$Native_List.fromArray(
-		['data', 'image_url']),
-	_elm_lang$core$Json_Decode$string);
-var _gillchristian$elming$Main$model = {
-	content: '',
-	counter: 0,
-	name: '',
-	password: '',
-	passwordCheck: '',
-	diceFace: 1,
-	topic: 'cats',
-	gifUrl: '',
-	isFetching: false,
-	time: 0,
-	chatInput: '',
-	messages: _elm_lang$core$Native_List.fromArray(
-		[])
-};
-var _gillchristian$elming$Main$init = {ctor: '_Tuple2', _0: _gillchristian$elming$Main$model, _1: _elm_lang$core$Platform_Cmd$none};
-var _gillchristian$elming$Main$Model = function (a) {
-	return function (b) {
-		return function (c) {
-			return function (d) {
-				return function (e) {
-					return function (f) {
-						return function (g) {
-							return function (h) {
-								return function (i) {
-									return function (j) {
-										return function (k) {
-											return function (l) {
-												return {content: a, counter: b, name: c, password: d, passwordCheck: e, diceFace: f, topic: g, gifUrl: h, isFetching: i, time: j, chatInput: k, messages: l};
-											};
-										};
-									};
-								};
-							};
-						};
-					};
-				};
-			};
-		};
-	};
-};
-var _gillchristian$elming$Main$NewMessage = function (a) {
-	return {ctor: 'NewMessage', _0: a};
-};
-var _gillchristian$elming$Main$Send = {ctor: 'Send'};
-var _gillchristian$elming$Main$ChatInput = function (a) {
-	return {ctor: 'ChatInput', _0: a};
-};
-var _gillchristian$elming$Main$Tick = function (a) {
-	return {ctor: 'Tick', _0: a};
-};
-var _gillchristian$elming$Main$subscriptions = function (model) {
-	return _elm_lang$core$Platform_Sub$batch(
+var _gillchristian$elming$View$counterBox = function (counter) {
+	return A2(
+		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
 			[
-				A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _gillchristian$elming$Main$Tick),
-				A2(_elm_lang$websocket$WebSocket$listen, 'ws://echo.websocket.org', _gillchristian$elming$Main$NewMessage)
+				_elm_lang$html$Html_Attributes$style(
+				A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$container))
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('Counter')
+					])),
+				A2(
+				_elm_lang$html$Html$button,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Update$Decrement),
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('-')
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text(
+						_elm_lang$core$Basics$toString(counter))
+					])),
+				A2(
+				_elm_lang$html$Html$button,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Update$Increment),
+						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html$text('+')
+					])),
+				A2(
+				_elm_lang$html$Html$div,
+				_elm_lang$core$Native_List.fromArray(
+					[
+						_elm_lang$html$Html_Attributes$style(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							_elm_lang$core$Native_List.fromArray(
+								[
+									{ctor: '_Tuple2', _0: 'width', _1: '100%'}
+								]),
+							_gillchristian$elming$Styles$centerContent))
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$html$Html$button,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Update$Reset),
+								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html$text('Restart')
+							]))
+					]))
 			]));
 };
-var _gillchristian$elming$Main$FetchFail = function (a) {
-	return {ctor: 'FetchFail', _0: a};
-};
-var _gillchristian$elming$Main$FetchSucceed = function (a) {
-	return {ctor: 'FetchSucceed', _0: a};
-};
-var _gillchristian$elming$Main$getRandomGif = function (topic) {
-	var url = A2(_elm_lang$core$Basics_ops['++'], 'https://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag=', topic);
-	return A3(
-		_elm_lang$core$Task$perform,
-		_gillchristian$elming$Main$FetchFail,
-		_gillchristian$elming$Main$FetchSucceed,
-		A2(_evancz$elm_http$Http$get, _gillchristian$elming$Main$decodeGifUrl, url));
-};
-var _gillchristian$elming$Main$MorePlease = {ctor: 'MorePlease'};
-var _gillchristian$elming$Main$NewFace = function (a) {
-	return {ctor: 'NewFace', _0: a};
-};
-var _gillchristian$elming$Main$update = F2(
-	function (msg, model) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
-			case 'Increment':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{counter: model.counter + 1}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Decrement':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{counter: model.counter - 1}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Reset':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{counter: 0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Change':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{content: _p1._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Name':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{name: _p1._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Password':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{password: _p1._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'PasswordCheck':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{passwordCheck: _p1._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Roll':
-				return {
-					ctor: '_Tuple2',
-					_0: model,
-					_1: A2(
-						_elm_lang$core$Random$generate,
-						_gillchristian$elming$Main$NewFace,
-						A2(_elm_lang$core$Random$int, 1, 6))
-				};
-			case 'NewFace':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{diceFace: _p1._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'MorePlease':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{isFetching: true}),
-					_1: _gillchristian$elming$Main$getRandomGif(model.topic)
-				};
-			case 'FetchSucceed':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{gifUrl: _p1._0, isFetching: false}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'FetchFail':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{isFetching: false}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Tick':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{time: _p1._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'ChatInput':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{chatInput: _p1._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'Send':
-				return {
-					ctor: '_Tuple2',
-					_0: model,
-					_1: A2(_elm_lang$websocket$WebSocket$send, 'ws://echo.websocket.org', model.chatInput)
-				};
-			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							messages: A2(_elm_lang$core$List_ops['::'], _p1._0, model.messages)
-						}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-		}
-	});
-var _gillchristian$elming$Main$Roll = {ctor: 'Roll'};
-var _gillchristian$elming$Main$PasswordCheck = function (a) {
-	return {ctor: 'PasswordCheck', _0: a};
-};
-var _gillchristian$elming$Main$Password = function (a) {
-	return {ctor: 'Password', _0: a};
-};
-var _gillchristian$elming$Main$Name = function (a) {
-	return {ctor: 'Name', _0: a};
-};
-var _gillchristian$elming$Main$Change = function (a) {
-	return {ctor: 'Change', _0: a};
-};
-var _gillchristian$elming$Main$Reset = {ctor: 'Reset'};
-var _gillchristian$elming$Main$Decrement = {ctor: 'Decrement'};
-var _gillchristian$elming$Main$Increment = {ctor: 'Increment'};
-var _gillchristian$elming$Main$view = function (model) {
+var _gillchristian$elming$View$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		_elm_lang$core$Native_List.fromArray(
@@ -10337,325 +10662,29 @@ var _gillchristian$elming$Main$view = function (model) {
 			]),
 		_elm_lang$core$Native_List.fromArray(
 			[
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$style(
-						A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$container))
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Counter')
-							])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Main$Decrement),
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('-')
-							])),
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(
-								_elm_lang$core$Basics$toString(model.counter))
-							])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Main$Increment),
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('+')
-							])),
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									_elm_lang$core$Native_List.fromArray(
-										[
-											{ctor: '_Tuple2', _0: 'width', _1: '100%'}
-										]),
-									_gillchristian$elming$Styles$centerContent))
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								A2(
-								_elm_lang$html$Html$button,
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Main$Reset),
-										_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item)
-									]),
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html$text('Restart')
-									]))
-							]))
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$style(
-						A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$column))
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Inverted text')
-							])),
-						A2(
-						_elm_lang$html$Html$input,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
-								_elm_lang$html$Html_Attributes$placeholder('Input some Html.text'),
-								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$Change)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(
-								_elm_lang$core$String$reverse(model.content))
-							]))
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$style(
-						A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$container))
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Login')
-							])),
-						A2(
-						_elm_lang$html$Html$input,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
-								_elm_lang$html$Html_Attributes$type$('text'),
-								_elm_lang$html$Html_Attributes$placeholder('Name'),
-								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$Name)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
-						A2(
-						_elm_lang$html$Html$input,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
-								_elm_lang$html$Html_Attributes$type$('password'),
-								_elm_lang$html$Html_Attributes$placeholder('Password'),
-								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$Password)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
-						A2(
-						_elm_lang$html$Html$input,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$item),
-								_elm_lang$html$Html_Attributes$type$('password'),
-								_elm_lang$html$Html_Attributes$placeholder('Re-enter Password'),
-								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$PasswordCheck)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
-						_gillchristian$elming$Main$viewValidation(model)
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$style(
-						A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$box, _gillchristian$elming$Styles$column))
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Dice roller')
-							])),
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(
-								A2(
-									_elm_lang$core$Basics_ops['++'],
-									_gillchristian$elming$Styles$centerContent,
-									_elm_lang$core$Native_List.fromArray(
-										[
-											{ctor: '_Tuple2', _0: 'width', _1: '100%'}
-										])))
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								A2(
-								_elm_lang$html$Html$h1,
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html_Attributes$style(
-										A2(_elm_lang$core$Basics_ops['++'], _gillchristian$elming$Styles$item, _gillchristian$elming$Styles$dice)),
-										_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Main$Roll)
-									]),
-								_elm_lang$core$Native_List.fromArray(
-									[
-										_elm_lang$html$Html$text(
-										_elm_lang$core$Basics$toString(model.diceFace))
-									]))
-							]))
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text(model.topic)
-							])),
-						_gillchristian$elming$Main$gifOrLoading(model),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Main$MorePlease)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Moar!!!')
-							]))
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Clock')
-							])),
-						_gillchristian$elming$Main$clock(model)
-					])),
-				A2(
-				_elm_lang$html$Html$div,
-				_elm_lang$core$Native_List.fromArray(
-					[
-						_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$box)
-					]),
-				_elm_lang$core$Native_List.fromArray(
-					[
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Attributes$style(_gillchristian$elming$Styles$heading)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Chat')
-							])),
-						A2(
-						_elm_lang$html$Html$div,
-						_elm_lang$core$Native_List.fromArray(
-							[]),
-						A2(_elm_lang$core$List$map, _gillchristian$elming$Main$viewMessage, model.messages)),
-						A2(
-						_elm_lang$html$Html$input,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onInput(_gillchristian$elming$Main$ChatInput)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[])),
-						A2(
-						_elm_lang$html$Html$button,
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html_Events$onClick(_gillchristian$elming$Main$Send)
-							]),
-						_elm_lang$core$Native_List.fromArray(
-							[
-								_elm_lang$html$Html$text('Send')
-							]))
-					]))
+				_gillchristian$elming$View$counterBox(model.counter),
+				_gillchristian$elming$View$invertedTextBox(model.content),
+				A2(_gillchristian$elming$View$login, model.password, model.passwordCheck),
+				_gillchristian$elming$View$diceBox(model.diceFace),
+				A3(_gillchristian$elming$View$gifBox, model.isFetching, model.topic, model.gifUrl),
+				_gillchristian$elming$View$clockBox(model.time),
+				_gillchristian$elming$View$chatBox(model.messages)
 			]));
 };
+
+var _gillchristian$elming$Subscriptions$subscriptions = function (model) {
+	return _elm_lang$core$Platform_Sub$batch(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second, _gillchristian$elming$Update$Tick),
+				A2(_elm_lang$websocket$WebSocket$listen, 'ws://echo.websocket.org', _gillchristian$elming$Update$NewMessage)
+			]));
+};
+
+var _gillchristian$elming$Main$init = {ctor: '_Tuple2', _0: _gillchristian$elming$Model$model, _1: _elm_lang$core$Platform_Cmd$none};
 var _gillchristian$elming$Main$main = {
 	main: _elm_lang$html$Html_App$program(
-		{init: _gillchristian$elming$Main$init, view: _gillchristian$elming$Main$view, update: _gillchristian$elming$Main$update, subscriptions: _gillchristian$elming$Main$subscriptions})
+		{init: _gillchristian$elming$Main$init, view: _gillchristian$elming$View$view, update: _gillchristian$elming$Update$update, subscriptions: _gillchristian$elming$Subscriptions$subscriptions})
 };
 
 var Elm = {};
