@@ -4,7 +4,7 @@
   "description": "trying out elm lang, doing some silly stuff with it!",
   "main": "bundle.js",
   "scripts": {
-    "build": "elm-make Main.elm --output=bundle.js",
+    "build": "elm-make src/Main.elm --output=bundle.js",
     "start": "elm-reactor"
   },
   "repository": {
